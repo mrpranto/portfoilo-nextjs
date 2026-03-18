@@ -67,27 +67,11 @@ const experiences = [
   },
 ];
 
-const colorConfig: Record<string, { dot: string; badge: string; border: string }> = {
-  cyan: {
-    dot: "bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.8)]",
-    badge: "bg-cyan-500/10 text-cyan-300 border-cyan-500/25",
-    border: "border-l-cyan-500/50",
-  },
-  purple: {
-    dot: "bg-purple-400 shadow-[0_0_12px_rgba(139,92,246,0.8)]",
-    badge: "bg-purple-500/10 text-purple-300 border-purple-500/25",
-    border: "border-l-purple-500/50",
-  },
-  pink: {
-    dot: "bg-pink-400 shadow-[0_0_12px_rgba(236,72,153,0.8)]",
-    badge: "bg-pink-500/10 text-pink-300 border-pink-500/25",
-    border: "border-l-pink-500/50",
-  },
-  orange: {
-    dot: "bg-orange-400 shadow-[0_0_12px_rgba(251,146,60,0.8)]",
-    badge: "bg-orange-500/10 text-orange-300 border-orange-500/25",
-    border: "border-l-orange-500/50",
-  },
+const colorMap: Record<string, { dot: string; border: string; badge: string; pill: string }> = {
+  cyan:   { dot: "bg-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.8)]",   border: "border-l-cyan-500/50",   badge: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-300 border-cyan-500/25",   pill: "text-cyan-500" },
+  purple: { dot: "bg-purple-400 shadow-[0_0_12px_rgba(139,92,246,0.8)]", border: "border-l-purple-500/50", badge: "bg-purple-500/10 text-purple-600 dark:text-purple-300 border-purple-500/25", pill: "text-purple-500" },
+  pink:   { dot: "bg-pink-400 shadow-[0_0_12px_rgba(236,72,153,0.8)]",   border: "border-l-pink-500/50",   badge: "bg-pink-500/10 text-pink-600 dark:text-pink-300 border-pink-500/25",   pill: "text-pink-500" },
+  orange: { dot: "bg-orange-400 shadow-[0_0_12px_rgba(251,146,60,0.8)]", border: "border-l-orange-500/50", badge: "bg-orange-500/10 text-orange-600 dark:text-orange-300 border-orange-500/25", pill: "text-orange-500" },
 };
 
 export default function Experience() {
@@ -96,90 +80,78 @@ export default function Experience() {
   return (
     <section id="experience" className="py-24 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-16">
-          <p className="text-cyan-400 font-mono text-sm mb-3">{"// where I've worked"}</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white section-title">
+          <p className="text-cyan-600 dark:text-cyan-400 font-mono text-sm mb-3">{"// where I've worked"}</p>
+          <h2 className="text-3xl sm:text-4xl font-bold section-title" style={{ color: "var(--text-1)" }}>
             Experience
           </h2>
         </div>
 
-        {/* Timeline */}
         <div className="relative">
-          {/* Vertical line */}
+          {/* Vertical timeline line */}
           <div className="hidden md:block absolute left-[22px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-500/50 via-purple-500/30 to-transparent" />
 
           <div className="space-y-6">
             {experiences.map((exp, i) => {
-              const cfg = colorConfig[exp.color];
+              const cfg = colorMap[exp.color];
               const isOpen = expanded === i;
-
               return (
                 <div key={i} className="relative md:pl-14">
                   {/* Timeline dot */}
                   <div
-                    className={`hidden md:flex absolute left-0 top-5 w-[46px] h-[46px] rounded-full border border-white/10 bg-[#0d0d18] items-center justify-center z-10`}
+                    className="hidden md:flex absolute left-0 top-5 w-[46px] h-[46px] rounded-full border flex-none items-center justify-center z-10"
+                    style={{ background: "var(--page-bg)", borderColor: "var(--timeline-dot-border)" }}
                   >
                     <div className={`w-3 h-3 rounded-full ${cfg.dot}`} />
                   </div>
 
                   {/* Card */}
                   <div className={`glass-card overflow-hidden border-l-2 ${cfg.border}`}>
-                    {/* Header row */}
                     <button
                       onClick={() => setExpanded(isOpen ? null : i)}
                       className="w-full text-left p-6 flex items-start justify-between gap-4"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <h3 className="text-white font-bold text-base sm:text-lg">
+                          <h3 className="font-bold text-base sm:text-lg" style={{ color: "var(--text-1)" }}>
                             {exp.role}
                           </h3>
                           {exp.current && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 uppercase tracking-wider">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30 uppercase tracking-wider">
                               Current
                             </span>
                           )}
                         </div>
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-400">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm" style={{ color: "var(--text-2)" }}>
                           <span className="flex items-center gap-1.5">
-                            <Building2 size={14} className="text-slate-500" />
+                            <Building2 size={14} style={{ color: "var(--text-3)" }} />
                             {exp.company} · {exp.location}
                           </span>
                           <span className="flex items-center gap-1.5">
-                            <Calendar size={14} className="text-slate-500" />
+                            <Calendar size={14} style={{ color: "var(--text-3)" }} />
                             {exp.period}
                           </span>
                         </div>
                       </div>
-                      <div className="text-slate-500 mt-1 shrink-0">
+                      <div className="mt-1 shrink-0" style={{ color: "var(--text-3)" }}>
                         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                       </div>
                     </button>
 
-                    {/* Expandable content */}
-                    <div
-                      className={`transition-all duration-300 overflow-hidden ${
-                        isOpen ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
-                      }`}
-                    >
+                    <div className={`transition-all duration-300 overflow-hidden ${isOpen ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"}`}>
                       <div className="px-6 pb-6">
-                        <div className="border-t border-white/[0.06] pt-5">
+                        <div className="pt-5" style={{ borderTop: "1px solid var(--divider)" }}>
                           <ul className="space-y-3 mb-5">
                             {exp.highlights.map((h, j) => (
-                              <li key={j} className="flex gap-3 text-slate-400 text-sm leading-relaxed">
-                                <span className="text-cyan-500 mt-1 shrink-0">▹</span>
+                              <li key={j} className="flex gap-3 text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>
+                                <span className={`mt-1 shrink-0 ${cfg.pill}`}>▹</span>
                                 <span>{h}</span>
                               </li>
                             ))}
                           </ul>
-                          {/* Tech stack */}
                           <div className="flex flex-wrap gap-2">
                             {exp.stack.map((tech) => (
-                              <span
-                                key={tech}
-                                className={`skill-pill text-[11px] border ${cfg.badge}`}
-                              >
+                              <span key={tech} className={`skill-pill text-[11px] border ${cfg.badge}`}>
                                 {tech}
                               </span>
                             ))}
